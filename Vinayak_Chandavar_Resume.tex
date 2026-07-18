@@ -1,0 +1,246 @@
+%-------------------------
+% Resume in Latex
+% Author : Vinayak Suresh Chandavar
+% License : MIT
+%------------------------
+
+%---- Required Packages and Functions ----
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{cfr-lm}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{fontawesome}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\geometry{left=1.4cm, top=0.8cm, right=1.2cm, bottom=1cm}
+\usepackage[most]{tcolorbox}
+\tcbset{
+	frame code={}
+	center title,
+	left=0pt,
+	right=0pt,
+	top=0pt,
+	bottom=0pt,
+	colback=gray!20,
+	colframe=white,
+	width=\dimexpr\textwidth\relax,
+	enlarge left by=-2mm,
+	boxsep=4pt,
+	arc=0pt,outer arc=0pt,
+}
+
+\urlstyle{same}
+
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item{
+    \textbf{#1}{\hspace{0.5mm}#2 \vspace{-0.5mm}}
+  }
+}
+
+\newcommand{\resumePOR}[3]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1}\hspace{0.3mm}#2 & \textit{\small{#3}} 
+    \end{tabular*}
+    \vspace{-2mm}
+}
+
+\newcommand{\resumeSubheading}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#4}} \\
+        \textit{\footnotesize{#3}} &  \footnotesize{#2}\\
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeProject}[4]{
+\vspace{0.5mm}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \textbf{#1} & \textit{\footnotesize{#3}} \\
+        \footnotesize{\textit{#2}} & \footnotesize{#4}
+    \end{tabular*}
+    \vspace{-2.4mm}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=0mm]}
+\newcommand{\resumeHeadingSkillStart}{\begin{itemize}[leftmargin=*,itemsep=1.7mm, rightmargin=2ex]}
+\newcommand{\resumeItemListStart}{\begin{justify}\begin{itemize}[leftmargin=3ex, rightmargin=2ex, noitemsep,labelsep=1.2mm,itemsep=0mm]\small}
+
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{2mm}}
+\newcommand{\resumeHeadingSkillEnd}{\end{itemize}\vspace{-2mm}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\end{justify}\vspace{-2mm}}
+\newcommand{\cvsection}[1]{%
+\vspace{2mm}
+\begin{tcolorbox}
+    \textbf{\large #1}
+\end{tcolorbox}
+    \vspace{-4mm}
+}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+%---- End of Packages and Functions ------
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%
+%%%%%% DEFINE ELEMENTS HERE %%%%%%%
+\newcommand{\name}{Vinayak Suresh Chandavar} % Your Name
+\newcommand{\course}{Electronics and Communication Engineering} % Your Program
+\newcommand{\phone}{+91-7619225588} % Your Phone Number
+\newcommand{\emailb}{vinayakchandavar4@gmail.com} %Email 2
+
+\begin{document}
+\fontfamily{cmr}\selectfont
+
+\parbox{\dimexpr\linewidth\relax}{
+\begin{tabularx}{\linewidth}{L r} \\
+  \textbf{\Large \name} & {\raisebox{0.0\height}{\footnotesize \faPhone}\ \phone}\\
+  \course &  \href{mailto:\emailb}{\raisebox{0.0\height}{\footnotesize \faEnvelope}\ {\emailb}}\\
+  {Bachelor of Engineering} &  \href{https://github.com/vinayakec69}{\raisebox{0.0\height}{\footnotesize \faGithub}\ {GitHub Profile}} \\
+  {Sahyadri College of Engineering and Management, Mangaluru} & \href{https://www.linkedin.com/in/vinayak-chandavar-b1a81732b}{\raisebox{0.0\height}{\footnotesize \faLinkedin}\ {LinkedIn Profile}}
+\end{tabularx}
+}
+
+%-----------------TECHNICAL SKILLS--------------
+
+\section{\textbf{Technical Skills and Interests}}
+ \begin{itemize}[leftmargin = 0.05in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Python, C++, Bash, JavaScript, TypeScript.} \\
+     \textbf{AI \& Computer Vision}{: Ultralytics YOLOv8, PyTorch, OpenCV, TensorFlow.js.} \\
+     \textbf{Hardware \& Edge-AI}{: NVIDIA Jetson Orin Nano, Intel RealSense Depth Cameras, ESP32.} \\
+     \textbf{Web Development \& Cloud}{: React 18, Firebase (Firestore, RTDB), Tailwind CSS, Vite.} \\
+     \textbf{Areas of Interest}{: Edge-AI Deployment, Computer Vision, Autonomous Systems.} \\
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+
+
+%-----------EDUCATION-----------
+\section{\textbf{Education}}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Sahyadri College of Engineering and Management, Mangaluru} {}
+      {Bachelor of Engineering in Electronics and Communication Engineering}{2027}
+    \resumeSubheading
+      {Shri Marikamba Government PU College, Sirsi}{}
+      {Pre-University Course (Class 12) -- Dept. of PUE, Karnataka}{}
+    \resumeSubheading
+      {Government Marigudi High School, Sirsi}{}
+      {Secondary School Certificate (Class 10) -- KSEEB}{}
+  \resumeSubHeadingListEnd
+\vspace{-5.5mm}
+
+
+%-----------PROJECTS-----------------
+\section{\textbf{Projects}}
+\resumeSubHeadingListStart
+
+    \resumeProject
+      {SmartSeg: Edge-AI Based Plastic Waste Sorting System \href{https://github.com/vinayakec69/CV-MODEL-IN-Material-Recovery-Facility}{\faExternalLink}} 
+      {Real-time CV system on Jetson Orin Nano to automate MRF conveyor belt sorting at 30+ FPS.} 
+      {Emphasis Lab} 
+
+      \resumeItemListStart
+        \item {Technologies used: YOLOv8, OpenCV, Python, Intel RealSense, Headless Linux.}
+        \item {Engineered a zero-domain-gap dataset and a lightweight depth-gating algorithm to bypass GPU memory limits and prevent thermal throttling on edge hardware.}
+        \item {Implemented a 7/10 multi-frame supermajority rolling buffer to eliminate single-frame classification hallucinations.}
+    \resumeItemListEnd
+
+    \vspace{0mm}
+    
+     \resumeProject
+      {KRUX: AI-Powered Gamified Smart Bin Ecosystem} 
+      {A full-stack hardware/software ecosystem gamifying recycling to prevent contamination.} 
+      {} 
+
+      \resumeItemListStart
+        \item {Technologies used: React 18, Tailwind, Firebase (RTDB, Firestore), TensorFlow.js, ESP32.}
+        \item{Built a Progressive Web App (PWA) with on-device ML inference in the browser, ensuring 100\% user privacy and zero cloud inference costs.}
+        \item{Interfaced the web app with an ESP32 hardware bin using Firebase RTDB to achieve a seamless, zero-latency sensor handshake for fraud detection.}
+    \resumeItemListEnd
+
+    \vspace{0mm}
+
+    \resumeProject
+      {CareLens: Vision AI Wearable for the Visually Impaired} 
+      {Wearable assistive tech providing 3D semantic understanding and audio navigation cues.} 
+      {} 
+
+      \resumeItemListStart
+        \item {Technologies used: PyTorch, YOLOv8, Intel RealSense, pyttsx3, Jetson Orin Nano.}
+        \item{Fine-tuned PyTorch models for offline indoor obstacle detection, heavily optimizing dataloader constraints (batch=1) to prevent `CUDACachingAllocator` OOM crashes.}
+        \item{Designed a low-latency offline audio engine using `pyttsx3` and a Type-C DAC to bypass Bluetooth bottlenecks and deliver conversational audio warnings.}
+    \resumeItemListEnd
+
+    \vspace{0mm}
+
+  \resumeSubHeadingListEnd
+\vspace{-5.5mm}
+
+
+%-----------EXPERIENCE/RESEARCH-----------------
+\section{\textbf{Experience \& Research}}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Emphasis Lab, SCEM}{Adyar, Mangaluru}
+      {Project Developer / AI Researcher}{2023 - Present}
+      \vspace{-2.0mm}
+      \resumeItemListStart
+    \item {Developed and deployed real-time Edge-AI solutions utilizing NVIDIA Jetson hardware and depth-sensing technology.}
+    \item {Specialized in resolving low-level Linux memory constraints (`nvlm assert` bugs) to maximize deep learning inference on embedded systems.}
+    \resumeItemListEnd
+      
+  \resumeSubHeadingListEnd
+\vspace{-8.5mm}
+
+%-----------ACHIEVEMENTS / HACKATHONS-----------------
+\section{\textbf{Achievements \& Hackathons}}
+\vspace{-0.4mm}
+\resumeSubHeadingListStart
+\resumePOR{Hackathon Participant \& Finalist: }
+    {Various National \& State Level Hackathons. \href{https://drive.google.com/drive/folders/1JoRxXEXK24WbS0SCnmrWko8Q4e-QyX0Y}{\faExternalLink}}
+    {\textbf{2023 - 2024}}
+\resumeSubHeadingListEnd
+\vspace{-5mm}
+
+\setlength{\footskip}{4.08003pt}
+\end{document}

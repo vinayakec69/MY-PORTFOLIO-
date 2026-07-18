@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinayak Chandavar — Edge AI Engineer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root {
+    --bg: #050508;
+    --bg-darker: #020204;
+    --bg-card: #0A0A10;
+    --bg-card-hover: #101018;
+    --fg: #f5f5f5;
+    --fg-dim: #c0c0c0;
+    --muted: #6a6a6a;
+    
+    /* Electric Blue Theme */
+    --accent: #00E5FF;
+    --accent-bright: #33EEFF;
+    --accent-dim: #0099AA;
+    --accent-glow: rgba(0, 229, 255, 0.45);
+    
+    --silver: #C8C8C8;
+    --silver-dim: #5a5a5a;
+    --border: #1f1f2e;
+    --border-light: #2a2a3e;
+  }
+  
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Archivo', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* Typography */
+  .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.005em; }
+  .font-heading { font-family: 'Oswald', sans-serif; }
+  .font-body { font-family: 'Archivo', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  
+  /* Grain overlay */
+  .grain {
+    position: fixed;
+    inset: -10%;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+  
+  /* Section reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  
+  /* Hero Overlay */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(180deg, rgba(5,5,8,0.92) 0%, rgba(5,5,8,0.45) 28%, rgba(5,5,8,0.55) 65%, rgba(5,5,8,0.98) 100%),
+      linear-gradient(90deg, rgba(5,5,8,0.85) 0%, rgba(5,5,8,0.2) 50%, rgba(5,5,8,0.5) 100%),
+      radial-gradient(ellipse at 25% 60%, rgba(0, 229, 255, 0.15) 0%, transparent 55%);
+  }
+
+  /* Background texture */
+  .bg-textured {
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(80, 80, 80, 0.06) 0%, transparent 40%);
+  }
+  
+  /* Text effects */
+  .text-stroke {
+    -webkit-text-stroke: 1.5px var(--silver-dim);
+    color: transparent;
+  }
+  .text-stroke-accent {
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+  
+  /* Number counter */
+  .number-display { font-variant-numeric: tabular-nums; }
+  
+  /* Card hover light */
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.4s, background 0.4s;
+  }
+  .info-card:hover {
+    border-color: var(--accent-dim);
+    background: var(--bg-card-hover);
+  }
+  
+  /* Corner notch decoration */
+  .notch-corner { position: relative; }
+  .notch-corner::before,
+  .notch-corner::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--accent);
+    pointer-events: none;
+  }
+  .notch-corner::before {
+    top: -1px; left: -1px;
+    border-right: none; border-bottom: none;
+  }
+  .notch-corner::after {
+    bottom: -1px; right: -1px;
+    border-left: none; border-top: none;
+  }
+
+  .section-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .section-marker::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* AI Chat Widget */
+  #ai-chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 380px;
+    max-height: 500px;
+    background: rgba(10, 10, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--accent-dim);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(120%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
+    z-index: 999;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.15);
+  }
+  
+  #ai-chat-widget.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .chat-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-messages {
+    padding: 16px;
+    height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    max-width: 85%;
+    line-height: 1.4;
+  }
+  
+  .msg-ai {
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+
+  .msg-user {
+    background: var(--accent-dim);
+    color: #fff;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+
+  .chat-input-area {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input-area input {
+    flex: 1;
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 10px 14px;
+    border-radius: 6px;
+    outline: none;
+    font-family: 'Archivo', sans-serif;
+  }
+  .chat-input-area input:focus { border-color: var(--accent); }
+
+  .chat-input-area button {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 0 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s;
+  }
+  .chat-input-area button:hover { opacity: 0.8; }
+
+  /* Floating Trigger Button */
+  #ai-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 998;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    transition: transform 0.3s;
+  }
+  #ai-trigger:hover { transform: scale(1.1); }
+</style>
+</head>
+<body class="bg-textured">
+  <div class="grain" id="grain"></div>
+  
+  <!-- Top Nav -->
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/5">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 bg-[var(--accent)] flex items-center justify-center relative">
+          <i class="fas fa-microchip text-black text-base"></i>
+        </div>
+        <div>
+          <div class="font-display text-2xl leading-none tracking-wider text-white">VINAYAK</div>
+          <div class="font-mono text-[10px] text-[var(--muted)] tracking-[0.3em] mt-0.5">ENGINEER · RESEARCHER</div>
+        </div>
+      </a>
+      
+      <div class="flex items-center gap-5">
+        <a href="https://github.com/vinayakec69" target="_blank" class="text-[var(--fg-dim)] hover:text-[var(--accent)] transition-colors"><i class="fab fa-github text-xl"></i></a>
+        <a href="https://www.linkedin.com/in/vinayak-chandavar-b1a81732b" target="_blank" class="text-[var(--fg-dim)] hover:text-[var(--accent)] transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+      </div>
+    </div>
+  </header>
+  
+  <!-- HERO -->
+  <section class="relative h-screen min-h-[760px] w-full flex items-center" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-10 w-full mt-10">
+      
+      <div class="max-w-5xl">
+        <div class="section-marker mb-6">
+          <span>AI / EDGE COMPUTING / EMBEDDED</span>
+        </div>
+        <h1 class="font-display text-[12vw] md:text-[9vw] lg:text-[7.5vw] leading-[0.85] mb-8 text-white">
+          <span class="block">BUILT WITH <span class="text-stroke">CODE.</span></span>
+          <span class="block">FORGED IN <span class="text-[var(--accent)]">EDGE-AI.</span></span>
+        </h1>
+        <p class="max-w-xl text-[var(--fg-dim)] text-base md:text-lg leading-relaxed font-body">
+          I am a specialized AI researcher & hardware developer at the Emphasis Lab. I build high-performance computer vision solutions deployed on severely constrained edge hardware.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- STATS -->
+  <section class="border-y border-[var(--border)] bg-[var(--bg-darker)] relative z-20">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-16">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
+        <div class="border-l border-[var(--border-light)] pl-6">
+          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">3+</div>
+          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Core Projects Built</div>
+        </div>
+        <div class="border-l border-[var(--border-light)] pl-6">
+          <div class="font-display text-5xl md:text-6xl text-[var(--accent)]">30 FPS</div>
+          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Avg Edge Inference Speed</div>
+        </div>
+        <div class="border-l border-[var(--border-light)] pl-6">
+          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">3,600+</div>
+          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Images Curated</div>
+        </div>
+        <div class="border-l border-[var(--border-light)] pl-6">
+          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">Top 5</div>
+          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Hackathon State Rank</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- PROJECTS -->
+  <section class="relative py-28 lg:py-36" id="projects">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
+      <div class="mb-20">
+        <div class="section-marker mb-6"><span>01 — Engineering Portfolio</span></div>
+        <h2 class="font-display text-6xl text-white">SYSTEMS I'VE <span class="text-[var(--accent)]">SHIPPED</span></h2>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <!-- SmartSeg -->
+        <article class="info-card notch-corner group p-7">
+          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">EDGE-AI / CV</div>
+          <h3 class="font-display text-4xl mb-3 text-white">SMARTSEG</h3>
+          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+            Real-time plastic waste sorting system running at 30+ FPS on a Jetson Orin Nano. Engineered a zero-domain-gap dataset and lightweight depth-gating to completely bypass hardware memory constraints.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">YOLOv8</span>
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Jetson Nano</span>
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">RealSense</span>
+          </div>
+        </article>
+        
+        <!-- KRUX -->
+        <article class="info-card notch-corner group p-7">
+          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">FULL STACK / IOT</div>
+          <h3 class="font-display text-4xl mb-3 text-white">KRUX</h3>
+          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+            A gamified smart-bin ecosystem. Built a React PWA utilizing TensorFlow.js for on-device browser inference to eliminate cloud costs, interfacing via Firebase RTDB with an ESP32 hardware bin.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">React 18</span>
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Firebase</span>
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">ESP32</span>
+          </div>
+        </article>
+
+        <!-- CareLens -->
+        <article class="info-card notch-corner group p-7">
+          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">WEARABLE TECH</div>
+          <h3 class="font-display text-4xl mb-3 text-white">CARELENS</h3>
+          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+            Assistive wearable for the visually impaired. Fine-tuned PyTorch object detection models to run locally. Engineered a low-latency offline audio engine (`pyttsx3`) over a Type-C DAC to deliver conversational cues.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">PyTorch</span>
+            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Offline TTS</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Chat Trigger -->
+  <div id="ai-trigger">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <!-- AI Chat Widget UI -->
+  <div id="ai-chat-widget">
+    <div class="chat-header">
+      <div>
+        <div class="font-heading tracking-widest uppercase text-sm text-white">Vinayak's AI Agent</div>
+        <div class="text-[10px] font-mono text-[var(--accent)] mt-1">● ONLINE</div>
+      </div>
+      <button id="close-chat" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg msg-ai">
+        Hello! I am an AI trained on Vinayak's resume and portfolio. Ask me anything about his projects, skills, or experience! (e.g. "How did he optimize the Jetson Nano?")
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Ask about Vinayak..." autocomplete="off">
+      <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <script>
+    // Reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Chat Widget Logic
+    const triggerBtn = document.getElementById('ai-trigger');
+    const chatWidget = document.getElementById('ai-chat-widget');
+    const closeBtn = document.getElementById('close-chat');
+    const sendBtn = document.getElementById('chat-send');
+    const inputField = document.getElementById('chat-input');
+    const messagesBox = document.getElementById('chat-messages');
+
+    triggerBtn.addEventListener('click', () => {
+      chatWidget.classList.add('open');
+      triggerBtn.style.transform = 'scale(0)';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      chatWidget.classList.remove('open');
+      triggerBtn.style.transform = 'scale(1)';
+    });
+
+    // Supabase Setup
+    // NOTE: REPLACE THESE WITH YOUR ACTUAL SUPABASE URL AND ANON KEY
+    const SUPABASE_URL = 'https://zyxlmslzhsvwfrxnkohb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5eGxtc2x6aHN2d2ZyeG5rb2hiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODExMTgsImV4cCI6MjA5OTk1NzExOH0.bkVI_4U27Cf5g6AVdv8N-sv5mj0_0FI-bWWp6DehhGA';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function sendMessage() {
+      const text = inputField.value.trim();
+      if (!text) return;
+      
+      // Append user msg
+      const userDiv = document.createElement('div');
+      userDiv.className = 'msg msg-user';
+      userDiv.textContent = text;
+      messagesBox.appendChild(userDiv);
+      inputField.value = '';
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+
+      // Loading state
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'msg msg-ai';
+      loadingDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+      messagesBox.appendChild(loadingDiv);
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+
+      try {
+        // Call the Supabase Edge Function to process the AI request
+        const { data, error } = await supabaseClient.functions.invoke('chat-agent', {
+          body: { prompt: text }
+        });
+
+        if (error) throw error;
+        
+        // Remove loading state
+        messagesBox.removeChild(loadingDiv);
+
+        // Append AI response
+        const aiDiv = document.createElement('div');
+        aiDiv.className = 'msg msg-ai';
+        aiDiv.textContent = data.response;
+        messagesBox.appendChild(aiDiv);
+
+      } catch (err) {
+        messagesBox.removeChild(loadingDiv);
+        const errDiv = document.createElement('div');
+        errDiv.className = 'msg msg-ai';
+        errDiv.style.color = '#ff4444';
+        errDiv.textContent = 'Error connecting to Edge Function. Make sure it is deployed!';
+        messagesBox.appendChild(errDiv);
+        console.error(err);
+      }
+      
+      messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
