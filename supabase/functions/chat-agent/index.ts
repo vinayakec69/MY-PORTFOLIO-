@@ -35,7 +35,7 @@ serve(async (req) => {
     Answer the user's prompt based on this information.`
 
     // Call the Gemini API REST endpoint
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,6 +48,16 @@ serve(async (req) => {
     })
 
     const data = await response.json()
+    
+    // Check if Gemini API returned an error
+    if (data.error) {
+      throw new Error(`Gemini API Error: ${data.error.message}`)
+    }
+
+    if (!data.candidates || data.candidates.length === 0) {
+      throw new Error(`Unexpected Gemini response: ${JSON.stringify(data)}`)
+    }
+
     const aiResponse = data.candidates[0].content.parts[0].text
 
     // Return the response to the frontend
