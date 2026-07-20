@@ -12,24 +12,22 @@
 
 <style>
   :root {
-    --bg: #050508;
-    --bg-darker: #020204;
-    --bg-card: #0A0A10;
-    --bg-card-hover: #101018;
-    --fg: #f5f5f5;
-    --fg-dim: #c0c0c0;
-    --muted: #6a6a6a;
+    --bg: #ffffff;
+    --bg-alt: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --fg: #0f172a;
+    --fg-dim: #475569;
+    --muted: #94a3b8;
     
-    /* Electric Blue Theme */
-    --accent: #00E5FF;
-    --accent-bright: #33EEFF;
-    --accent-dim: #0099AA;
-    --accent-glow: rgba(0, 229, 255, 0.45);
+    /* Professional Blue Theme */
+    --accent: #2563eb;
+    --accent-bright: #3b82f6;
+    --accent-dim: #1d4ed8;
+    --accent-glow: rgba(37, 99, 235, 0.15);
     
-    --silver: #C8C8C8;
-    --silver-dim: #5a5a5a;
-    --border: #1f1f2e;
-    --border-light: #2a2a3e;
+    --border: #e2e8f0;
+    --border-light: #cbd5e1;
   }
   
   * { box-sizing: border-box; }
@@ -45,90 +43,41 @@
   }
   
   /* Typography */
-  .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.005em; }
+  .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
   .font-heading { font-family: 'Oswald', sans-serif; }
   .font-body { font-family: 'Archivo', sans-serif; }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
   
-  /* Grain overlay */
-  .grain {
-    position: fixed;
-    inset: -10%;
-    pointer-events: none;
-    z-index: 200;
-    opacity: 0.06;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    mix-blend-mode: overlay;
-  }
-  
   /* Section reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(48px);
-    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   }
   .reveal.in-view { opacity: 1; transform: translateY(0); }
   
-  /* Hero Overlay */
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: 
-      linear-gradient(180deg, rgba(5,5,8,0.92) 0%, rgba(5,5,8,0.45) 28%, rgba(5,5,8,0.55) 65%, rgba(5,5,8,0.98) 100%),
-      linear-gradient(90deg, rgba(5,5,8,0.85) 0%, rgba(5,5,8,0.2) 50%, rgba(5,5,8,0.5) 100%),
-      radial-gradient(ellipse at 25% 60%, rgba(0, 229, 255, 0.15) 0%, transparent 55%);
-  }
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-alt); }
+  ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-  /* Background texture */
-  .bg-textured {
-    background-color: var(--bg);
-    background-image: 
-      radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(80, 80, 80, 0.06) 0%, transparent 40%);
-  }
-  
-  /* Text effects */
-  .text-stroke {
-    -webkit-text-stroke: 1.5px var(--silver-dim);
-    color: transparent;
-  }
-  .text-stroke-accent {
-    -webkit-text-stroke: 1.5px var(--accent);
-    color: transparent;
-  }
-  
   /* Number counter */
   .number-display { font-variant-numeric: tabular-nums; }
   
-  /* Card hover light */
+  /* Card */
   .info-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    transition: border-color 0.4s, background 0.4s;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
   .info-card:hover {
-    border-color: var(--accent-dim);
-    background: var(--bg-card-hover);
-  }
-  
-  /* Corner notch decoration */
-  .notch-corner { position: relative; }
-  .notch-corner::before,
-  .notch-corner::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border: 1px solid var(--accent);
-    pointer-events: none;
-  }
-  .notch-corner::before {
-    top: -1px; left: -1px;
-    border-right: none; border-bottom: none;
-  }
-  .notch-corner::after {
-    bottom: -1px; right: -1px;
-    border-left: none; border-top: none;
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -2px rgba(37, 99, 235, 0.05);
   }
 
   .section-marker {
@@ -137,15 +86,36 @@
     gap: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     color: var(--accent);
     text-transform: uppercase;
+    font-weight: 700;
   }
   .section-marker::before {
     content: '';
     width: 32px;
-    height: 1px;
+    height: 2px;
     background: var(--accent);
+  }
+
+  /* Photo Container */
+  .profile-photo {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 4/5;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 20px 20px 0px var(--accent-glow);
+    border: 1px solid var(--border);
+    background-color: var(--bg-alt); /* Placeholder background */
+  }
+
+  .project-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--bg-alt); /* Placeholder background */
   }
 
   /* AI Chat Widget */
@@ -155,17 +125,17 @@
     right: 24px;
     width: 380px;
     max-height: 500px;
-    background: rgba(10, 10, 16, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
-    border: 1px solid var(--accent-dim);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     transform: translateY(120%);
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
     z-index: 999;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 0 20px rgba(37, 99, 235, 0.1);
   }
   
   #ai-chat-widget.open {
@@ -179,6 +149,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg-alt);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
   }
 
   .chat-messages {
@@ -192,25 +165,25 @@
 
   .msg {
     padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
     max-width: 85%;
-    line-height: 1.4;
+    line-height: 1.5;
   }
   
   .msg-ai {
-    background: var(--bg-darker);
+    background: var(--bg-alt);
     border: 1px solid var(--border);
     color: var(--fg);
     align-self: flex-start;
-    border-top-left-radius: 0;
+    border-bottom-left-radius: 4px;
   }
 
   .msg-user {
-    background: var(--accent-dim);
+    background: var(--accent);
     color: #fff;
     align-self: flex-end;
-    border-top-right-radius: 0;
+    border-bottom-right-radius: 4px;
   }
 
   .chat-input-area {
@@ -218,71 +191,105 @@
     border-top: 1px solid var(--border);
     display: flex;
     gap: 8px;
+    background: #fff;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
   }
 
   .chat-input-area input {
     flex: 1;
-    background: var(--bg-darker);
+    background: var(--bg-alt);
     border: 1px solid var(--border);
     color: var(--fg);
     padding: 10px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     outline: none;
     font-family: 'Archivo', sans-serif;
+    transition: border-color 0.2s;
   }
   .chat-input-area input:focus { border-color: var(--accent); }
 
   .chat-input-area button {
     background: var(--accent);
-    color: #000;
+    color: #fff;
     border: none;
     padding: 0 16px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: opacity 0.2s;
+    transition: background-color 0.2s;
   }
-  .chat-input-area button:hover { opacity: 0.8; }
+  .chat-input-area button:hover { background: var(--accent-dim); }
+
+  /* Typing Indicator */
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 4px 8px;
+    align-items: center;
+  }
+  .typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--muted);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+  .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+  .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+  
+  @keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
 
   /* Floating Trigger Button */
   #ai-trigger {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: var(--accent);
-    color: #000;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     cursor: pointer;
     z-index: 998;
-    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-    transition: transform 0.3s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: pulse 2s infinite;
   }
-  #ai-trigger:hover { transform: scale(1.1); }
+  #ai-trigger:hover { transform: scale(1.1); animation: none; }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+  }
 </style>
 </head>
-<body class="bg-textured">
-  <div class="grain" id="grain"></div>
+<body>
   
   <!-- Top Nav -->
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/5">
-    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-[var(--border)]">
+    <div class="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3 group">
-        <div class="w-9 h-9 bg-[var(--accent)] flex items-center justify-center relative">
-          <i class="fas fa-microchip text-black text-base"></i>
+        <div class="w-10 h-10 bg-[var(--accent)] text-white rounded-lg flex items-center justify-center">
+          <i class="fas fa-microchip text-lg"></i>
         </div>
         <div>
-          <div class="font-display text-2xl leading-none tracking-wider text-white">VINAYAK</div>
-          <div class="font-mono text-[10px] text-[var(--muted)] tracking-[0.3em] mt-0.5">ENGINEER · RESEARCHER</div>
+          <div class="font-display text-2xl leading-none text-[var(--fg)]">VINAYAK</div>
+          <div class="font-mono text-[10px] text-[var(--muted)] tracking-[0.2em] mt-1 font-bold">ENGINEER · RESEARCHER</div>
         </div>
       </a>
       
-      <div class="flex items-center gap-5">
+      <div class="flex items-center gap-6">
+        <a href="#about" class="text-sm font-bold text-[var(--fg-dim)] hover:text-[var(--accent)] hidden md:block">About</a>
+        <a href="#projects" class="text-sm font-bold text-[var(--fg-dim)] hover:text-[var(--accent)] hidden md:block">Projects</a>
         <a href="https://github.com/vinayakec69" target="_blank" class="text-[var(--fg-dim)] hover:text-[var(--accent)] transition-colors"><i class="fab fa-github text-xl"></i></a>
         <a href="https://www.linkedin.com/in/vinayak-chandavar-b1a81732b" target="_blank" class="text-[var(--fg-dim)] hover:text-[var(--accent)] transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
       </div>
@@ -290,101 +297,185 @@
   </header>
   
   <!-- HERO -->
-  <section class="relative h-screen min-h-[760px] w-full flex items-center" id="hero">
-    <div class="hero-overlay"></div>
-    <div class="relative z-10 max-w-[1600px] mx-auto px-6 lg:px-10 w-full mt-10">
-      
-      <div class="max-w-5xl">
-        <div class="section-marker mb-6">
-          <span>AI / EDGE COMPUTING / EMBEDDED</span>
+  <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 w-full flex items-center" id="hero">
+    <div class="max-w-[1200px] mx-auto px-6 w-full">
+      <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+        
+        <!-- Text Content -->
+        <div class="flex-1 reveal">
+          <div class="section-marker mb-6">
+            <span>AI / EDGE COMPUTING / EMBEDDED</span>
+          </div>
+          <h1 class="font-display text-6xl md:text-7xl lg:text-8xl leading-[0.9] mb-8 text-[var(--fg)]">
+            <span class="block">BUILT WITH <span class="text-[var(--accent)]">CODE.</span></span>
+            <span class="block">FORGED IN EDGE-AI.</span>
+          </h1>
+          <p class="text-[var(--fg-dim)] text-lg md:text-xl leading-relaxed font-body mb-8 max-w-xl">
+            I am a specialized AI researcher & hardware developer at the Emphasis Lab. I build high-performance computer vision solutions deployed on severely constrained edge hardware.
+          </p>
+          <div class="flex gap-4">
+            <a href="#projects" class="px-6 py-3 bg-[var(--accent)] text-white font-bold rounded-lg hover:bg-[var(--accent-dim)] transition-colors">View Projects</a>
+            <a href="Vinayak Resume.pdf" target="_blank" class="px-6 py-3 border border-[var(--border)] text-[var(--fg)] font-bold rounded-lg hover:bg-[var(--bg-alt)] transition-colors flex items-center gap-2">
+              <i class="fas fa-file-pdf"></i> Resume
+            </a>
+          </div>
         </div>
-        <h1 class="font-display text-[12vw] md:text-[9vw] lg:text-[7.5vw] leading-[0.85] mb-8 text-white">
-          <span class="block">BUILT WITH <span class="text-stroke">CODE.</span></span>
-          <span class="block">FORGED IN <span class="text-[var(--accent)]">EDGE-AI.</span></span>
-        </h1>
-        <p class="max-w-xl text-[var(--fg-dim)] text-base md:text-lg leading-relaxed font-body">
-          I am a specialized AI researcher & hardware developer at the Emphasis Lab. I build high-performance computer vision solutions deployed on severely constrained edge hardware.
-        </p>
+
+        <!-- Photo -->
+        <div class="flex-1 flex justify-center lg:justify-end reveal">
+          <!-- TODO: Upload your photo as 'profile.jpg' into the 'images' folder -->
+          <img src="./images/profile.jpg" alt="Vinayak Chandavar" class="profile-photo" onerror="this.src='https://placehold.co/400x500/e2e8f0/475569?text=Upload+profile.jpg+to+images+folder'">
+        </div>
+
       </div>
     </div>
   </section>
   
-  <!-- STATS -->
-  <section class="border-y border-[var(--border)] bg-[var(--bg-darker)] relative z-20">
-    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-16">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
-        <div class="border-l border-[var(--border-light)] pl-6">
-          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">3+</div>
-          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Core Projects Built</div>
+  <!-- ABOUT & EXPERIENCE -->
+  <section class="py-20 bg-[var(--bg-alt)] border-y border-[var(--border)]" id="about">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16">
+        <div class="reveal">
+          <div class="section-marker mb-6"><span>01 — Background</span></div>
+          <h2 class="font-display text-4xl mb-6">EXPERIENCE & EDUCATION</h2>
+          
+          <div class="mb-8">
+            <h3 class="font-bold text-xl mb-1 text-[var(--accent)]">Emphasis Lab, SCEM</h3>
+            <p class="font-mono text-sm text-[var(--fg-dim)] mb-3">Project Developer / AI Researcher (2023 - Present)</p>
+            <ul class="list-disc pl-5 text-[var(--fg-dim)] space-y-2 text-sm leading-relaxed">
+              <li>Developed and deployed real-time Edge-AI solutions utilizing NVIDIA Jetson hardware and depth-sensing technology.</li>
+              <li>Specialized in resolving low-level Linux memory constraints ('nvlm assert' bugs) to maximize deep learning inference on embedded systems.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-xl mb-1">Sahyadri College of Engineering & Management</h3>
+            <p class="font-mono text-sm text-[var(--fg-dim)] mb-3">B.E. Electronics and Communication Engineering (Class of 2027)</p>
+          </div>
         </div>
-        <div class="border-l border-[var(--border-light)] pl-6">
-          <div class="font-display text-5xl md:text-6xl text-[var(--accent)]">30 FPS</div>
-          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Avg Edge Inference Speed</div>
-        </div>
-        <div class="border-l border-[var(--border-light)] pl-6">
-          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">3,600+</div>
-          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Images Curated</div>
-        </div>
-        <div class="border-l border-[var(--border-light)] pl-6">
-          <div class="font-display text-5xl md:text-6xl text-[var(--fg)]">Top 5</div>
-          <div class="font-mono text-[11px] text-[var(--muted)] tracking-[0.2em] uppercase mt-2">Hackathon State Rank</div>
+
+        <div class="reveal" style="transition-delay: 0.2s;">
+          <div class="section-marker mb-6"><span>02 — Toolkit</span></div>
+          <h2 class="font-display text-4xl mb-6">TECHNICAL SKILLS</h2>
+          
+          <div class="space-y-6">
+            <div>
+              <h4 class="font-bold mb-2 text-sm uppercase tracking-wider text-[var(--fg-dim)]">AI & Computer Vision</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">Ultralytics YOLOv8</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">PyTorch</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">OpenCV</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">TensorFlow.js</span>
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="font-bold mb-2 text-sm uppercase tracking-wider text-[var(--fg-dim)]">Hardware & Edge-AI</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">NVIDIA Jetson Orin Nano</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">Intel RealSense</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">ESP32</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-bold mb-2 text-sm uppercase tracking-wider text-[var(--fg-dim)]">Languages & Web</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">Python</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">C++</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">React 18</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">TypeScript</span>
+                <span class="px-3 py-1.5 bg-white border border-[var(--border)] rounded-md text-sm font-medium">Firebase</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
   
   <!-- PROJECTS -->
-  <section class="relative py-28 lg:py-36" id="projects">
-    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
-      <div class="mb-20">
-        <div class="section-marker mb-6"><span>01 — Engineering Portfolio</span></div>
-        <h2 class="font-display text-6xl text-white">SYSTEMS I'VE <span class="text-[var(--accent)]">SHIPPED</span></h2>
+  <section class="py-24 lg:py-32" id="projects">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <div class="mb-16 reveal">
+        <div class="section-marker mb-6"><span>03 — Engineering Portfolio</span></div>
+        <h2 class="font-display text-5xl md:text-6xl text-[var(--fg)]">SYSTEMS I'VE <span class="text-[var(--accent)]">SHIPPED</span></h2>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
         <!-- SmartSeg -->
-        <article class="info-card notch-corner group p-7">
-          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">EDGE-AI / CV</div>
-          <h3 class="font-display text-4xl mb-3 text-white">SMARTSEG</h3>
-          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
-            Real-time plastic waste sorting system running at 30+ FPS on a Jetson Orin Nano. Engineered a zero-domain-gap dataset and lightweight depth-gating to completely bypass hardware memory constraints.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">YOLOv8</span>
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Jetson Nano</span>
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">RealSense</span>
+        <article class="info-card group flex flex-col reveal">
+          <!-- TODO: Upload project screenshot as 'smartseg.jpg' into 'images' -->
+          <img src="./images/smartseg.jpg" alt="SmartSeg Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=smartseg.jpg'">
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">EDGE-AI / CV</div>
+            <h3 class="font-display text-3xl mb-3">SMARTSEG</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">Real-time CV system on Jetson Orin Nano to automate MRF conveyor belt sorting at 30+ FPS.</p>
+            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
+              <li>Engineered a zero-domain-gap dataset and lightweight depth-gating algorithm.</li>
+              <li>Bypassed GPU memory limits preventing thermal throttling.</li>
+              <li>Implemented a 7/10 multi-frame supermajority rolling buffer.</li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">YOLOv8</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson Orin Nano</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Intel RealSense</span>
+            </div>
           </div>
         </article>
         
         <!-- KRUX -->
-        <article class="info-card notch-corner group p-7">
-          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">FULL STACK / IOT</div>
-          <h3 class="font-display text-4xl mb-3 text-white">KRUX</h3>
-          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
-            A gamified smart-bin ecosystem. Built a React PWA utilizing TensorFlow.js for on-device browser inference to eliminate cloud costs, interfacing via Firebase RTDB with an ESP32 hardware bin.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">React 18</span>
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Firebase</span>
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">ESP32</span>
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.1s;">
+          <!-- TODO: Upload project screenshot as 'krux.jpg' into 'images' -->
+          <img src="./images/krux.jpg" alt="KRUX Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=krux.jpg'">
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">FULL STACK / IOT</div>
+            <h3 class="font-display text-3xl mb-3">KRUX</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">A full-stack hardware/software ecosystem gamifying recycling to prevent contamination.</p>
+            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
+              <li>Built a PWA with on-device ML inference using TensorFlow.js ensuring privacy & zero cloud costs.</li>
+              <li>Interfaced the web app with an ESP32 hardware bin using Firebase RTDB.</li>
+              <li>Achieved a seamless, zero-latency sensor handshake for fraud detection.</li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">React 18</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Firebase</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">TensorFlow.js</span>
+            </div>
           </div>
         </article>
 
         <!-- CareLens -->
-        <article class="info-card notch-corner group p-7">
-          <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] mb-4">WEARABLE TECH</div>
-          <h3 class="font-display text-4xl mb-3 text-white">CARELENS</h3>
-          <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
-            Assistive wearable for the visually impaired. Fine-tuned PyTorch object detection models to run locally. Engineered a low-latency offline audio engine (`pyttsx3`) over a Type-C DAC to deliver conversational cues.
-          </p>
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">PyTorch</span>
-            <span class="px-2 py-1 bg-[#1a1a2e] text-[10px] font-mono tracking-widest border border-white/10 text-white rounded">Offline TTS</span>
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.2s;">
+          <!-- TODO: Upload project screenshot as 'carelens.jpg' into 'images' -->
+          <img src="./images/carelens.jpg" alt="CareLens Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=carelens.jpg'">
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">WEARABLE TECH</div>
+            <h3 class="font-display text-3xl mb-3">CARELENS</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">Wearable assistive tech providing 3D semantic understanding and audio navigation cues.</p>
+            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
+              <li>Fine-tuned PyTorch models for offline indoor obstacle detection.</li>
+              <li>Optimized dataloader (batch=1) to prevent CUDACachingAllocator OOM crashes.</li>
+              <li>Designed low-latency offline audio engine with pyttsx3 and a Type-C DAC.</li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">PyTorch</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">pyttsx3</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Type-C DAC</span>
+            </div>
           </div>
         </article>
       </div>
     </div>
   </section>
+  
+  <!-- FOOTER -->
+  <footer class="py-10 bg-[var(--bg-alt)] border-t border-[var(--border)] text-center">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <p class="text-[var(--fg-dim)] font-mono text-sm">© 2026 Vinayak Chandavar. Built with Edge-AI logic.</p>
+    </div>
+  </footer>
 
   <!-- AI Chat Trigger -->
   <div id="ai-trigger">
@@ -395,15 +486,15 @@
   <div id="ai-chat-widget">
     <div class="chat-header">
       <div>
-        <div class="font-heading tracking-widest uppercase text-sm text-white">Vinayak's AI Agent</div>
-        <div class="text-[10px] font-mono text-[var(--accent)] mt-1">● ONLINE</div>
+        <div class="font-heading tracking-widest uppercase text-sm font-bold text-[var(--fg)]">Vinayak's AI Agent</div>
+        <div class="text-[10px] font-mono text-[var(--accent)] mt-1 font-bold">● ONLINE</div>
       </div>
-      <button id="close-chat" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+      <button id="close-chat" class="text-[var(--muted)] hover:text-[var(--fg)] transition-colors"><i class="fas fa-times"></i></button>
     </div>
     
     <div class="chat-messages" id="chat-messages">
       <div class="msg msg-ai">
-        Hello! I am an AI trained on Vinayak's resume and portfolio. Ask me anything about his projects, skills, or experience! (e.g. "How did he optimize the Jetson Nano?")
+        Hey there! 👋 I'm an AI trained to know everything about Vinayak's skills, projects, and hackathons. I'm professional but definitely know how to have a little fun. Ask me anything!
       </div>
     </div>
 
@@ -444,7 +535,6 @@
     });
 
     // Supabase Setup
-    // NOTE: REPLACE THESE WITH YOUR ACTUAL SUPABASE URL AND ANON KEY
     const SUPABASE_URL = 'https://zyxlmslzhsvwfrxnkohb.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5eGxtc2x6aHN2d2ZyeG5rb2hiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODExMTgsImV4cCI6MjA5OTk1NzExOH0.bkVI_4U27Cf5g6AVdv8N-sv5mj0_0FI-bWWp6DehhGA';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -461,25 +551,22 @@
       inputField.value = '';
       messagesBox.scrollTop = messagesBox.scrollHeight;
 
-      // Loading state
+      // Loading state (typing indicator)
       const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'msg msg-ai';
-      loadingDiv.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
+      loadingDiv.className = 'msg msg-ai typing-indicator';
+      loadingDiv.innerHTML = '<span></span><span></span><span></span>';
       messagesBox.appendChild(loadingDiv);
       messagesBox.scrollTop = messagesBox.scrollHeight;
 
       try {
-        // Call the Supabase Edge Function to process the AI request
         const { data, error } = await supabaseClient.functions.invoke('chat-agent', {
           body: { prompt: text }
         });
 
         if (error) throw error;
         
-        // Remove loading state
         messagesBox.removeChild(loadingDiv);
 
-        // Append AI response
         const aiDiv = document.createElement('div');
         aiDiv.className = 'msg msg-ai';
         aiDiv.textContent = data.response;
@@ -489,7 +576,7 @@
         messagesBox.removeChild(loadingDiv);
         const errDiv = document.createElement('div');
         errDiv.className = 'msg msg-ai';
-        errDiv.style.color = '#ff4444';
+        errDiv.style.color = '#ef4444';
         errDiv.textContent = 'Error connecting to Edge Function. Make sure it is deployed!';
         messagesBox.appendChild(errDiv);
         console.error(err);
