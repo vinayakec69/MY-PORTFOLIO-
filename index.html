@@ -73,6 +73,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
   }
   .info-card:hover {
     border-color: var(--accent);
@@ -107,7 +108,7 @@
     object-fit: cover;
     box-shadow: 20px 20px 0px var(--accent-glow);
     border: 1px solid var(--border);
-    background-color: var(--bg-alt); /* Placeholder background */
+    background-color: var(--bg-alt);
   }
 
   .project-img {
@@ -115,7 +116,97 @@
     height: 240px;
     object-fit: cover;
     border-bottom: 1px solid var(--border);
-    background-color: var(--bg-alt); /* Placeholder background */
+    background-color: var(--bg-alt);
+  }
+
+  /* Modals */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .project-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.95);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+  .project-modal.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: var(--bg-alt);
+  }
+  .modal-close {
+    background: var(--border);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--fg);
+    transition: background 0.2s;
+  }
+  .modal-close:hover {
+    background: var(--border-light);
+  }
+  .modal-body {
+    padding: 32px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .modal-body h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-top: 24px;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .modal-body h4:first-child { margin-top: 0; }
+  .modal-body p, .modal-body li {
+    color: var(--fg-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .modal-body ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 16px;
   }
 
   /* AI Chat Widget */
@@ -134,7 +225,7 @@
     transform: translateY(120%);
     opacity: 0;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
-    z-index: 999;
+    z-index: 1002;
     box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 0 20px rgba(37, 99, 235, 0.1);
   }
   
@@ -323,7 +414,6 @@
 
         <!-- Photo -->
         <div class="flex-1 flex justify-center lg:justify-end reveal">
-          <!-- TODO: Upload your photo as 'profile.jpg' into the 'images' folder -->
           <img src="./images/profile.jpg" alt="Vinayak Chandavar" class="profile-photo" onerror="this.src='https://placehold.co/400x500/e2e8f0/475569?text=Upload+profile.jpg+to+images+folder'">
         </div>
 
@@ -400,13 +490,13 @@
       <div class="mb-16 reveal">
         <div class="section-marker mb-6"><span>03 — Engineering Portfolio</span></div>
         <h2 class="font-display text-5xl md:text-6xl text-[var(--fg)]">SYSTEMS I'VE <span class="text-[var(--accent)]">SHIPPED</span></h2>
+        <p class="text-[var(--fg-dim)] mt-2">Tap any project to view detailed technical specifications.</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         
         <!-- SmartSeg -->
-        <article class="info-card group flex flex-col reveal">
-          <!-- TODO: Upload project screenshot as 'smartseg.jpg' into 'images' -->
+        <article class="info-card group flex flex-col reveal" onclick="openModal('modal-smartseg')">
           <img src="./images/smartseg.jpg" alt="SmartSeg Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=smartseg.jpg'">
           <div class="p-6 flex-1 flex flex-col">
             <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">EDGE-AI / CV</div>
@@ -426,8 +516,7 @@
         </article>
         
         <!-- KRUX -->
-        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.1s;">
-          <!-- TODO: Upload project screenshot as 'krux.jpg' into 'images' -->
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.1s;" onclick="openModal('modal-krux')">
           <img src="./images/krux.jpg" alt="KRUX Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=krux.jpg'">
           <div class="p-6 flex-1 flex flex-col">
             <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">FULL STACK / IOT</div>
@@ -447,8 +536,7 @@
         </article>
 
         <!-- CareLens -->
-        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.2s;">
-          <!-- TODO: Upload project screenshot as 'carelens.jpg' into 'images' -->
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.2s;" onclick="openModal('modal-carelens')">
           <img src="./images/carelens.jpg" alt="CareLens Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=carelens.jpg'">
           <div class="p-6 flex-1 flex flex-col">
             <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">WEARABLE TECH</div>
@@ -476,6 +564,111 @@
       <p class="text-[var(--fg-dim)] font-mono text-sm">© 2026 Vinayak Chandavar. Built with Edge-AI logic.</p>
     </div>
   </footer>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeAllModals()"></div>
+
+  <!-- SmartSeg Modal -->
+  <div class="project-modal" id="modal-smartseg">
+    <div class="modal-header">
+      <div>
+        <div class="font-mono text-[12px] text-[var(--accent)] tracking-[0.2em] font-bold mb-2">EDGE-AI / CV</div>
+        <h3 class="font-display text-4xl leading-none">SmartSeg: Plastic Waste Sorting</h3>
+      </div>
+      <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h4>Abstract & Problem</h4>
+      <p>The global increase in plastic waste necessitates automated and highly accurate sorting mechanisms for efficient recycling. Traditional facilities rely on manual labor or expensive optical sorters. SmartSeg is an Edge-AI based plastic waste sorting system designed for high-speed conveyor belt operations.</p>
+      
+      <h4>Hardware Architecture</h4>
+      <ul>
+        <li><strong>NVIDIA Jetson Orin Nano:</strong> Provides accelerated AI inference, processing high-resolution frames locally to ensure minimal latency.</li>
+        <li><strong>Intel RealSense Depth Camera:</strong> RGB stream is used for classification; infrared depth stream acts as a critical hardware gate to conserve GPU memory.</li>
+      </ul>
+
+      <h4>Proposed Methodology</h4>
+      <ul>
+        <li><strong>Zero-Domain-Gap Dataset:</strong> Over 2,324 images were captured directly on the physical conveyor belt to prevent domain shift issues and improve real-world performance.</li>
+        <li><strong>Depth Gating:</strong> The YOLO model is only triggered when the depth sensor detects an object physically present on the conveyor belt, saving immense computational power.</li>
+        <li><strong>Majority Voting:</strong> Implemented a rolling buffer of the last 5 frames. The final classification decision is based on a majority vote, entirely eliminating single-frame hallucinations.</li>
+      </ul>
+
+      <h4>Experimental Results & Future Scope</h4>
+      <p>By removing computationally expensive depth-RGB alignment operations and implementing the depth gate, the Jetson Orin Nano achieved a consistent processing speed of <strong>31 Frames Per Second (FPS)</strong> with high accuracy across 6 material classes (PET, HDPE, PP, LDPE, MISC). Future iterations aim to integrate physical pneumatic actuators via an ESP32 microcontroller to physically sort the plastics.</p>
+    </div>
+  </div>
+
+  <!-- KRUX Modal -->
+  <div class="project-modal" id="modal-krux">
+    <div class="modal-header">
+      <div>
+        <div class="font-mono text-[12px] text-[var(--accent)] tracking-[0.2em] font-bold mb-2">FULL STACK / IOT</div>
+        <h3 class="font-display text-4xl leading-none">KRUX: Gamified Smart Bin</h3>
+      </div>
+      <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h4>Abstract & Problem</h4>
+      <p>The inefficiency of current recycling pipelines stems from a lack of consumer motivation and severe cross-contamination. KRUX is a decentralized, gamified Smart Bin ecosystem designed to shift the sorting process to the consumer source by incentivizing users with 'KRUX Coins'.</p>
+      
+      <h4>Software & Hardware Architecture</h4>
+      <ul>
+        <li><strong>Progressive Web App (PWA):</strong> Built with React 18, Vite, and Tailwind CSS. Provides a frictionless experience across iOS and Android.</li>
+        <li><strong>ESP32 Microcontroller:</strong> Acts as the physical validator. Equipped with an IR obstacle sensor and a servo motor for routing plastic.</li>
+        <li><strong>Firebase RTDB:</strong> Acts as a zero-latency communication bridge between the web app and the physical bin.</li>
+      </ul>
+
+      <h4>Proposed Methodology</h4>
+      <ul>
+        <li><strong>On-Device Machine Learning:</strong> Uses TensorFlow.js (MobileNet) to perform image classification entirely on the edge (the user's mobile device). This eliminates cloud costs and guarantees total user privacy.</li>
+        <li><strong>Secure Handshake Protocol:</strong> 
+          <ol class="list-decimal pl-5 mt-2">
+            <li>User scans QR to link session.</li>
+            <li>In-browser ML classifies plastic and enters escrow.</li>
+            <li>User drops plastic; ESP32 detects it and updates Firebase RTDB.</li>
+            <li>PWA detects the state change and securely mints KRUX coins.</li>
+          </ol>
+        </li>
+      </ul>
+
+      <h4>Experimental Results & Future Scope</h4>
+      <p>The ecosystem demonstrates a scalable, cost-effective approach to decentralizing waste segregation, eliminating traditional backend bottlenecks while providing a highly engaging user experience. Future iterations aim to expand the on-device ML dataset for higher precision across multi-layered plastics.</p>
+    </div>
+  </div>
+
+  <!-- CareLens Modal -->
+  <div class="project-modal" id="modal-carelens">
+    <div class="modal-header">
+      <div>
+        <div class="font-mono text-[12px] text-[var(--accent)] tracking-[0.2em] font-bold mb-2">WEARABLE TECH</div>
+        <h3 class="font-display text-4xl leading-none">CareLens: Spatial Navigation</h3>
+      </div>
+      <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h4>Abstract & Problem</h4>
+      <p>Traditional tools like the white cane provide physical feedback but lack semantic understanding (they can't tell the user *what* the object is). CareLens is an Edge-AI based spatial navigation and obstacle detection system designed for visually impaired individuals, providing real-time audio cues.</p>
+      
+      <h4>Hardware Architecture</h4>
+      <ul>
+        <li><strong>NVIDIA Jetson Orin Nano:</strong> Local inference engine for processing high-resolution frames without cloud latency.</li>
+        <li><strong>Intel RealSense Depth Camera:</strong> RGB for semantic material classification; Depth stream for calculating exact physical distances.</li>
+        <li><strong>Zero-Latency Audio:</strong> Bypassed Bluetooth bottlenecks by routing audio via a Type-C DAC to In-Ear Monitors for instantaneous warnings.</li>
+      </ul>
+
+      <h4>Proposed Methodology</h4>
+      <ul>
+        <li><strong>YOLOv8s Optimization:</strong> Pivoted to pre-trained YOLOv8s COCO weights to eliminate Out-Of-Memory (OOM) crashes in the <code>CUDACachingAllocator</code>, achieving flawless zero-shot detection of 80 classes.</li>
+        <li><strong>Offline TTS Gating:</strong> Cloud APIs were replaced with <code>pyttsx3</code> for 100% offline, zero-latency audio generation.</li>
+        <li><strong>Intelligent Cooldowns:</strong> Implemented a 3-second rolling memory buffer so objects (e.g., "Chair ahead") do not trigger audio spam.</li>
+        <li><strong>Spatial Navigation (NAV):</strong> Guides users to specific targets by evaluating bounding box X-coordinates against the frame thirds to issue "Turn Left" or "Turn Right" commands.</li>
+      </ul>
+
+      <h4>Experimental Results & Future Scope</h4>
+      <p>By utilizing headless execution (<code>--no-gui</code>), the system achieved a consistent <strong>30 FPS</strong> without triggering swap memory usage. The GTA-style navigation successfully guided users to targets within a 0.6-meter radius. Future iterations aim to deploy this architecture onto commercial Rokid AR smart glasses by quantizing the model to INT8 TensorFlow Lite.</p>
+    </div>
+  </div>
 
   <!-- AI Chat Trigger -->
   <div id="ai-trigger">
@@ -515,6 +708,19 @@
     }, { threshold: 0.1 });
     
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Modal Logic
+    function openModal(id) {
+      document.getElementById('modal-overlay').classList.add('active');
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling background
+    }
+
+    function closeAllModals() {
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.querySelectorAll('.project-modal').forEach(m => m.classList.remove('active'));
+      document.body.style.overflow = 'auto';
+    }
 
     // Chat Widget Logic
     const triggerBtn = document.getElementById('ai-trigger');
