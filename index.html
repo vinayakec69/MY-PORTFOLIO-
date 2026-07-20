@@ -830,9 +830,21 @@
         const errDiv = document.createElement('div');
         errDiv.className = 'msg msg-ai';
         errDiv.style.color = '#ef4444';
-        errDiv.textContent = 'Error connecting to Edge Function. Make sure it is deployed!';
+        
+        let errorMsg = 'Error connecting to Edge Function. Make sure it is deployed!';
+        if (err instanceof Error) {
+          console.error("Full Error:", err);
+          if (err.context && typeof err.context.json === 'function') {
+             try {
+               const errData = await err.context.json();
+               console.error("Edge Function Error Data:", errData);
+               errorMsg = errData.error || errorMsg;
+             } catch(e) {}
+          }
+        }
+        
+        errDiv.textContent = errorMsg;
         messagesBox.appendChild(errDiv);
-        console.error(err);
       }
       
       messagesBox.scrollTop = messagesBox.scrollHeight;
