@@ -567,10 +567,11 @@
         <h2 class="font-display text-4xl md:text-5xl mb-4">LET'S TEAM-UP FOR FUTURE INNOVATION</h2>
         <p class="text-[var(--fg-dim)] mb-8">Currently open to new opportunities, research collaborations, and hackathons. Let's build something great.</p>
         
-        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Thanks for reaching out! I will get back to you soon.');">
-          <input type="email" placeholder="Enter your email address" class="flex-1 bg-white border border-[var(--border)] px-4 py-3 rounded-lg outline-none focus:border-[var(--accent)] transition-colors" required>
-          <button type="submit" class="bg-[var(--accent)] text-white px-6 py-3 rounded-lg font-bold hover:bg-[var(--accent-dim)] transition-colors">Connect</button>
+        <form id="contact-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <input type="email" id="contact-email" placeholder="Enter your email address" class="flex-1 bg-white border border-[var(--border)] px-4 py-3 rounded-lg outline-none focus:border-[var(--accent)] transition-colors" required>
+          <button type="submit" id="contact-submit" class="bg-[var(--accent)] text-white px-6 py-3 rounded-lg font-bold hover:bg-[var(--accent-dim)] transition-colors">Connect</button>
         </form>
+        <p id="contact-success" class="text-green-600 mt-4 font-bold hidden">Thanks for reaching out! I will get back to you soon.</p>
       </div>
       <div class="text-center pt-8 border-t border-[var(--border)]">
         <p class="text-[var(--fg-dim)] font-mono text-sm">© 2026 Vinayak Chandavar. Built with Edge-AI logic.</p>
@@ -806,6 +807,11 @@
       messagesBox.scrollTop = messagesBox.scrollHeight;
 
       try {
+        // Log to Supabase chat_logs silently in the background
+        supabaseClient.from('chat_logs').insert([{ user_prompt: text }]).then(({error}) => {
+          if(error) console.error("Logging error:", error);
+        });
+
         const { data, error } = await supabaseClient.functions.invoke('chat-agent', {
           body: { prompt: text }
         });
@@ -835,6 +841,34 @@
     sendBtn.addEventListener('click', sendMessage);
     inputField.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
+    });
+
+    // Contact Form Logic
+    const contactForm = document.getElementById('contact-form');
+    const contactEmail = document.getElementById('contact-email');
+    const contactSuccess = document.getElementById('contact-success');
+    const contactSubmitBtn = document.getElementById('contact-submit');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = contactEmail.value.trim();
+      if(!email) return;
+
+      contactSubmitBtn.textContent = 'Sending...';
+      contactSubmitBtn.disabled = true;
+
+      const { error } = await supabaseClient.from('team_up_contacts').insert([{ email }]);
+      
+      contactSubmitBtn.textContent = 'Connect';
+      contactSubmitBtn.disabled = false;
+
+      if(error) {
+        alert("Something went wrong. Please try again later.");
+        console.error("Insert error:", error);
+      } else {
+        contactForm.style.display = 'none';
+        contactSuccess.classList.remove('hidden');
+      }
     });
   </script>
 </body>
