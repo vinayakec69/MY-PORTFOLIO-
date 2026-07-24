@@ -555,6 +555,26 @@
             </div>
           </div>
         </article>
+
+        <!-- Crack Detection -->
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.3s;" onclick="openModal('modal-crack')">
+          <img src="./images/crack_detection.png" alt="Crack Detection Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=crack_detection.png'">
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">EDGE-AI / CV</div>
+            <h3 class="font-display text-3xl mb-3">CRACK DETECTION</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">End-to-end real-time structural crack detection system built for drone deployment.</p>
+            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
+              <li>Engineered a master dataset of 24,000+ images for YOLOv8s training.</li>
+              <li>Integrated Intel RealSense to calculate physical distance to cracks.</li>
+              <li>Deployed onto NVIDIA Jetson Orin AGX for 30-60+ FPS offline inference.</li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">YOLOv8</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson Orin AGX</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Intel RealSense</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -709,6 +729,37 @@
       <a href="https://github.com/vinayakec69/Real-Time-Obstacle-Detection" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border)] text-[var(--fg)] rounded-lg font-bold hover:bg-[var(--bg-alt)] transition-colors mt-6 ml-2">
         <i class="fab fa-github"></i> GitHub Repo
       </a>
+    </div>
+  </div>
+
+  <!-- Crack Detection Modal -->
+  <div class="project-modal" id="modal-crack">
+    <div class="modal-header">
+      <div>
+        <div class="font-mono text-[12px] text-[var(--accent)] tracking-[0.2em] font-bold mb-2">EDGE-AI / CV</div>
+        <h3 class="font-display text-4xl leading-none">Structural Crack Detection</h3>
+      </div>
+      <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h4>Phase 1: Dataset Engineering</h4>
+      <p>The foundation of this robust computer vision model is high-quality data. We scraped 5 distinct open-source crack datasets and algorithmically merged them into a unified master dataset of over <strong>24,271 annotated images</strong>, ensuring massive variance for the neural network to learn from.</p>
+      
+      <h4>Phase 2: AI Model Training (YOLOv8)</h4>
+      <ul>
+        <li><strong>Architecture:</strong> YOLOv8s (Small) was selected for the perfect balance between high-speed inference and high accuracy.</li>
+        <li><strong>Training:</strong> Executed locally on an NVIDIA RTX GPU using CUDA acceleration (500 epochs). Achieved mathematical convergence at Epoch 192.</li>
+        <li><strong>Metrics:</strong> Achieved an Overall Accuracy (mAP50) of <strong>85.4%</strong>, Precision of 87.5%, and Recall of 77.9%.</li>
+      </ul>
+
+      <h4>Phase 3: Spatial Context (Intel RealSense)</h4>
+      <p>Standard 2D object detection only provides a bounding box. We integrated an Intel RealSense depth camera to capture RGB video alongside an infrared depth map. When YOLOv8 detects a crack, our script calculates the exact geometric center and queries the depth matrix to extract the physical distance (in centimeters) from the camera to the crack in real-time.</p>
+
+      <h4>Phase 4: Edge Deployment</h4>
+      <p>To sever the system from the cloud for autonomous robotic deployment, we deployed onto the NVIDIA Jetson Orin AGX (275 TOPS). The Jetson's Tensor cores natively run the PyTorch model, achieving real-time inference (30-60+ FPS) without any network latency.</p>
+      
+      <h4>Future Upgrades</h4>
+      <p>The next logical step for this project is <strong>TensorRT Quantization</strong>. By running the <code>.pt</code> file through NVIDIA's TensorRT compiler, the model can be converted into a <code>.engine</code> file specifically mathematically optimized for the Jetson's architecture, unlocking maximum possible framerates.</p>
     </div>
   </div>
 
