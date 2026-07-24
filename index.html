@@ -566,11 +566,11 @@
             <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
               <li>Engineered a master dataset of 24,000+ images for YOLOv8s training.</li>
               <li>Integrated Intel RealSense to calculate physical distance to cracks.</li>
-              <li>Deployed onto NVIDIA Jetson Orin AGX for 30-60+ FPS offline inference.</li>
+              <li>Deployed onto NVIDIA Jetson Orin Nano for 30-60+ FPS offline inference.</li>
             </ul>
             <div class="flex flex-wrap gap-2 mt-auto">
               <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">YOLOv8</span>
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson Orin AGX</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson Orin Nano</span>
               <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Intel RealSense</span>
             </div>
           </div>
@@ -756,7 +756,7 @@
       <p>Standard 2D object detection only provides a bounding box. We integrated an Intel RealSense depth camera to capture RGB video alongside an infrared depth map. When YOLOv8 detects a crack, our script calculates the exact geometric center and queries the depth matrix to extract the physical distance (in centimeters) from the camera to the crack in real-time.</p>
 
       <h4>Phase 4: Edge Deployment</h4>
-      <p>To sever the system from the cloud for autonomous robotic deployment, we deployed onto the NVIDIA Jetson Orin AGX (275 TOPS). The Jetson's Tensor cores natively run the PyTorch model, achieving real-time inference (30-60+ FPS) without any network latency.</p>
+      <p>To sever the system from the cloud for autonomous robotic deployment, we deployed onto the NVIDIA Jetson Orin Nano. The Jetson's Tensor cores natively run the PyTorch model, achieving real-time inference (30-60+ FPS) without any network latency.</p>
       
       <h4>Future Upgrades</h4>
       <p>The next logical step for this project is <strong>TensorRT Quantization</strong>. By running the <code>.pt</code> file through NVIDIA's TensorRT compiler, the model can be converted into a <code>.engine</code> file specifically mathematically optimized for the Jetson's architecture, unlocking maximum possible framerates.</p>
