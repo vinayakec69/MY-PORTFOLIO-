@@ -575,6 +575,26 @@
             </div>
           </div>
         </article>
+
+        <!-- TwinMed -->
+        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.4s;" onclick="openModal('modal-twinmed')">
+          <img src="./images/twinmed.jpg" alt="TwinMed Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=TwinMed'">
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">DIGITAL TWIN / MEDTECH</div>
+            <h3 class="font-display text-3xl mb-3">TWINMED</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">Edge-AI powered digital twin ecosystem for pre-operative orthopaedic surgical planning.</p>
+            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
+              <li>Built a custom WebGL/Three.js engine for 60 FPS anatomical rendering and surgical simulation.</li>
+              <li>Utilized NVIDIA Jetson AGX Orin for localized, HIPAA-compliant Edge AI processing.</li>
+              <li>Developed a Python FastAPI backend for real-time DICOM parsing and report generation.</li>
+            </ul>
+            <div class="flex flex-wrap gap-2 mt-auto">
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Three.js</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">FastAPI</span>
+              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson AGX Orin</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -760,6 +780,42 @@
       
       <h4>Future Upgrades</h4>
       <p>The next logical step for this project is <strong>TensorRT Quantization</strong>. By running the <code>.pt</code> file through NVIDIA's TensorRT compiler, the model can be converted into a <code>.engine</code> file specifically mathematically optimized for the Jetson's architecture, unlocking maximum possible framerates.</p>
+    </div>
+  </div>
+
+  <!-- TwinMed Modal -->
+  <div class="project-modal" id="modal-twinmed">
+    <div class="modal-header">
+      <div>
+        <div class="font-mono text-[12px] text-[var(--accent)] tracking-[0.2em] font-bold mb-2">DIGITAL TWIN / MEDTECH</div>
+        <h3 class="font-display text-4xl leading-none">TwinMed: Orthopaedic Planning</h3>
+      </div>
+      <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h4>Abstract & Problem</h4>
+      <p>Orthopaedic joint replacements require sub-millimeter precision. Current surgical planners rely on monolithic software architectures or remote cloud computing, creating high-latency rendering and severe data privacy (HIPAA) concerns. TwinMed resolves these bottlenecks by operating an interactive, gamified Surgical Planning Dashboard entirely at the edge.</p>
+      
+      <h4>Hardware and Edge AI Architecture</h4>
+      <ul>
+        <li><strong>NVIDIA Jetson AGX Orin:</strong> Utilizes a Unified Memory Architecture (UMA) to eliminate PCIe bottlenecks, allowing the AI segmentation model to access memory without data duplication.</li>
+        <li><strong>Data Sovereignty:</strong> By deploying as a containerized edge node, raw patient DICOM files are ingested locally. No PHI traverses the public internet, ensuring HIPAA compliance.</li>
+      </ul>
+
+      <h4>3D WebGL Engine & Mathematics</h4>
+      <p>Engineered a pure Vanilla HTML5, CSS3, and JavaScript frontend to avoid Virtual DOM overhead. The 3D viewer is powered by <strong>Three.js</strong> and WebGL. It features procedural anatomical generation (e.g., LatheGeometry for the humerus) and simulates biological noise using pseudo-random hashing functions. The vascular system is accurately mapped using Catmull-Rom Splines with 3D coordinate spatial awareness to prevent collision.</p>
+
+      <h4>Implant Biomechanics & Backend</h4>
+      <p>The system calculates critical biomechanical metrics like Alignment Angle and Impingement Risk dynamically. The backend is built with <strong>Python FastAPI</strong> utilizing <code>asyncio</code> to handle heavy I/O tasks like DICOM slicing concurrently. It also automates the generation of clinical PDF reports via the <code>ReportLab</code> library.</p>
+      
+      <div class="flex flex-wrap gap-4 mt-8 pt-6 border-t border-[var(--border)]">
+        <a href="https://github.com/vinayakec69/MEDHA-THON" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border)] text-[var(--fg)] rounded-lg font-bold hover:bg-[var(--bg-alt)] transition-colors">
+          <i class="fab fa-github"></i> GitHub Repo
+        </a>
+        <a href="https://youtu.be/2vZqeWjFpUw" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border)] text-[var(--fg)] rounded-lg font-bold hover:bg-[var(--bg-alt)] transition-colors">
+          <i class="fab fa-youtube text-[var(--accent)]"></i> Watch Video
+        </a>
+      </div>
     </div>
   </div>
 
