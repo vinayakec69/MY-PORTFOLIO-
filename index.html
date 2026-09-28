@@ -120,6 +120,130 @@
     padding: 1rem;
   }
 
+  /* ===== Ecosystem Unified Card ===== */
+  .eco-master-card {
+    grid-column: span 2;
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-card) 0%, #eef2ff 100%);
+    border: 2px solid var(--accent) !important;
+    overflow: visible;
+  }
+  .eco-master-card.eco-hidden {
+    display: none;
+  }
+  .eco-funding-badge {
+    background: linear-gradient(135deg, #1e40af, var(--accent));
+    color: white;
+    padding: 10px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eco-funding-badge i { font-size: 16px; color: #fbbf24; }
+
+  .eco-sub-container {
+    display: none;
+    grid-column: span 2;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .eco-sub-container.eco-expanded {
+    display: grid;
+  }
+
+  .eco-sub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    position: relative;
+    overflow: hidden;
+  }
+  .eco-sub-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .eco-sub-card:hover::before { transform: scaleX(1); }
+  .eco-sub-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px) scale(1);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.12);
+  }
+
+  .eco-sub-container.eco-expanded .eco-sub-1 {
+    animation: ecoSlideIn 0.4s 0.05s ease-out forwards;
+  }
+  .eco-sub-container.eco-expanded .eco-sub-2 {
+    animation: ecoSlideIn 0.4s 0.15s ease-out forwards;
+  }
+  .eco-sub-container.eco-expanded .eco-sub-3 {
+    animation: ecoSlideIn 0.4s 0.25s ease-out forwards;
+  }
+
+  @keyframes ecoSlideIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .eco-sub-layer-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .eco-chip {
+    padding: 2px 8px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--fg-dim);
+  }
+  .eco-collapse-btn {
+    grid-column: span 3;
+    padding: 10px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--fg-dim);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .eco-collapse-btn:hover {
+    background: var(--border);
+    color: var(--fg);
+  }
+
+  @media (max-width: 768px) {
+    .eco-master-card { grid-column: span 1; }
+    .eco-sub-container { grid-column: span 1; grid-template-columns: 1fr; }
+    .eco-collapse-btn { grid-column: span 1; }
+  }
+
   /* Modals */
   .modal-overlay {
     position: fixed;
@@ -496,45 +620,60 @@
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         
-        <!-- SmartSeg -->
-        <article class="info-card group flex flex-col reveal" onclick="openModal('modal-smartseg')">
-          <img src="./images/smartseg.jpg" alt="SmartSeg Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=smartseg.jpg'">
+        <!-- UNIFIED: Plastic Segregation Ecosystem -->
+        <article class="eco-master-card info-card group flex flex-col reveal" id="eco-master" onclick="expandEcosystem(event)">
+          <div class="eco-funding-badge">
+            <i class="fas fa-award"></i> IIT Kharagpur — ₹1,00,000 Deep Tech Grant
+          </div>
           <div class="p-6 flex-1 flex flex-col">
-            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">EDGE-AI / CV</div>
-            <h3 class="font-display text-3xl mb-3">SMARTSEG</h3>
-            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">Real-time CV system on Jetson Orin Nano to automate MRF conveyor belt sorting at 30+ FPS.</p>
-            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
-              <li>Engineered a zero-domain-gap dataset and lightweight depth-gating algorithm.</li>
-              <li>Bypassed GPU memory limits preventing thermal throttling.</li>
-              <li>Implemented a 7/10 multi-frame supermajority rolling buffer.</li>
-            </ul>
-            <div class="flex flex-wrap gap-2 mt-auto">
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">YOLOv8</span>
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Jetson Orin Nano</span>
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Intel RealSense</span>
-            </div>
+            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">EDGE-AI / IoT / FULL STACK</div>
+            <h3 class="font-display text-3xl mb-3">PLASTIC SEGREGATION ECOSYSTEM</h3>
+            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">A unified, multi-layered waste management ecosystem combining decentralized source separation with centralized industrial sorting.</p>
+            <p class="text-[var(--accent)] text-xs font-mono font-bold mt-auto cursor-pointer"><i class="fas fa-hand-pointer mr-1"></i> TAP TO EXPLORE 3 LAYERS →</p>
           </div>
         </article>
-        
-        <!-- KRUX -->
-        <article class="info-card group flex flex-col reveal" style="transition-delay: 0.1s;" onclick="openModal('modal-krux')">
-          <img src="./images/krux.jpg" alt="KRUX Project" class="project-img" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=krux.jpg'">
-          <div class="p-6 flex-1 flex flex-col">
-            <div class="font-mono text-[11px] text-[var(--accent)] tracking-[0.2em] font-bold mb-3">FULL STACK / IOT</div>
-            <h3 class="font-display text-3xl mb-3">KRUX</h3>
-            <p class="text-[var(--fg-dim)] text-sm font-medium mb-3">A full-stack hardware/software ecosystem gamifying recycling to prevent contamination.</p>
-            <ul class="list-disc pl-4 text-[var(--fg-dim)] text-[13px] mb-6 space-y-1">
-              <li>Built a PWA with on-device ML inference using TensorFlow.js ensuring privacy & zero cloud costs.</li>
-              <li>Interfaced the web app with an ESP32 hardware bin using Firebase RTDB.</li>
-              <li>Achieved a seamless, zero-latency sensor handshake for fraud detection.</li>
-            </ul>
-            <div class="flex flex-wrap gap-2 mt-auto">
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">React 18</span>
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">Firebase</span>
-              <span class="px-2 py-1 bg-[var(--bg-alt)] text-[11px] font-mono border border-[var(--border)] rounded text-[var(--fg-dim)] font-bold">TensorFlow.js</span>
+
+        <!-- Sub-cards container (hidden by default, appears on click) -->
+        <div class="eco-sub-container" id="eco-sub-container">
+
+          <!-- Layer 1: KRUX (Decentralized App) -->
+          <div class="eco-sub-card eco-sub-1" onclick="openModal('modal-krux')">
+            <div class="eco-sub-layer-tag">LAYER 1 — DECENTRALIZED</div>
+            <h4 class="font-display text-2xl mb-2">KRUX</h4>
+            <p class="text-[var(--fg-dim)] text-xs mb-3">Consumer-facing gamified PWA with on-device ML classification. Incentivizes citizens to pre-sort at the source using KRUX Coins.</p>
+            <div class="flex flex-wrap gap-1">
+              <span class="eco-chip">React 18</span>
+              <span class="eco-chip">TensorFlow.js</span>
+              <span class="eco-chip">Firebase</span>
             </div>
           </div>
-        </article>
+
+          <!-- Layer 2: EcoNode (Decentralized Bin) -->
+          <div class="eco-sub-card eco-sub-2" onclick="openModal('modal-krux')">
+            <div class="eco-sub-layer-tag">LAYER 2 — EDGE NODE</div>
+            <h4 class="font-display text-2xl mb-2">ECONODE BIN</h4>
+            <p class="text-[var(--fg-dim)] text-xs mb-3">IoT-enabled smart bin hardware using ESP32, IR sensors, and physical validation to complete the decentralized handshake.</p>
+            <div class="flex flex-wrap gap-1">
+              <span class="eco-chip">ESP32</span>
+              <span class="eco-chip">IR Sensors</span>
+              <span class="eco-chip">Firebase RTDB</span>
+            </div>
+          </div>
+
+          <!-- Layer 3: SmartSeg (Centralized MRF) -->
+          <div class="eco-sub-card eco-sub-3" onclick="openModal('modal-smartseg')">
+            <div class="eco-sub-layer-tag">LAYER 3 — CENTRALIZED MRF</div>
+            <h4 class="font-display text-2xl mb-2">SMARTSEG</h4>
+            <p class="text-[var(--fg-dim)] text-xs mb-3">Leftover unsorted plastic reaches the conveyor belt. YOLOv8 on Jetson Orin Nano performs real-time classification at 30+ FPS.</p>
+            <div class="flex flex-wrap gap-1">
+              <span class="eco-chip">YOLOv8</span>
+              <span class="eco-chip">Jetson Orin Nano</span>
+              <span class="eco-chip">Intel RealSense</span>
+            </div>
+          </div>
+
+          <button class="eco-collapse-btn" onclick="collapseEcosystem(event)"><i class="fas fa-compress-alt mr-2"></i>Collapse</button>
+        </div>
 
         <!-- CareLens -->
         <article class="info-card group flex flex-col reveal" style="transition-delay: 0.2s;" onclick="openModal('modal-carelens')">
@@ -857,6 +996,31 @@
     }, { threshold: 0.1 });
     
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Ecosystem Expand/Collapse
+    function expandEcosystem(e) {
+      e.stopPropagation();
+      const master = document.getElementById('eco-master');
+      const sub = document.getElementById('eco-sub-container');
+      master.classList.add('eco-hidden');
+      sub.classList.add('eco-expanded');
+      // Re-trigger animations by removing and re-adding class
+      sub.querySelectorAll('.eco-sub-card').forEach(card => {
+        card.style.animation = 'none';
+        card.offsetHeight; // force reflow
+        card.style.animation = '';
+      });
+      sub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function collapseEcosystem(e) {
+      e.stopPropagation();
+      const master = document.getElementById('eco-master');
+      const sub = document.getElementById('eco-sub-container');
+      sub.classList.remove('eco-expanded');
+      master.classList.remove('eco-hidden');
+      master.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
     // Modal Logic
     function openModal(id) {
